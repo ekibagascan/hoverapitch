@@ -1,0 +1,1778 @@
+.presentation {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* Header - Overlay on top of image */
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.header-left {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  justify-self: start;
+}
+
+.header-center {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  justify-self: center;
+}
+
+.header-right {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  justify-self: end;
+}
+
+/* Slide Container Layers */
+.slides-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+/* Slide Container */
+.slide-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
+}
+
+/* Initial State - Small centered image */
+.slide-container.initial {
+  transform: scale(0.5);
+  z-index: 30; /* Higher than previous content */
+}
+
+.slide-container.initial .slide-image-wrapper {
+  width: 50%;
+  max-width: 700px;
+  height: auto;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Revealing State - Scaling up */
+.slide-container.revealing {
+  transform: scale(1.1);
+  z-index: 30;
+}
+
+.slide-container.slide-7.revealing {
+  transform: scale(1.4);
+}
+
+.slide-container.revealing .slide-image-wrapper {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* Revealed State - Fullscreen */
+.slide-container.revealed {
+  transform: scale(1.1);
+  z-index: 30;
+}
+
+.slide-container.revealed.darken {
+  transform: scale(1.4); /* Restored original scale */
+}
+
+/* Specific deeper zoom for Slide 5 when students/makers are shown */
+.slide-container.slide-5.revealed.darken {
+  transform: scale(2);
+}
+
+/* Specific deeper zoom for Slide 7 image */
+.slide-container.slide-7.revealed {
+  transform: scale(1.4);
+}
+
+/* Specific deeper zoom for Slide 8 image */
+.slide-container.slide-8.revealing,
+.slide-container.slide-8.revealed {
+  transform: scale(1.6); /* Increased from 1.3 */
+}
+
+/* Specific deeper zoom for Slide 9, 10 & 11 image */
+.slide-container.slide-9.revealing,
+.slide-container.slide-9.revealed {
+  transform: scale(1.4);
+}
+
+.slide-container.slide-10.revealing,
+.slide-container.slide-10.revealed {
+  transform: scale(1.8);
+}
+
+.slide-container.slide-11.revealing,
+.slide-container.slide-11.revealed {
+  transform: scale(1.09);
+}
+
+/* 🚀 MEGA FIX: Absolute preservation chain for Slide 8, 9, 10, and 11 */
+
+/* --- SLIDE 11 ACTIVE: Preserve Slide 10, 9, and 8 --- */
+.presentation.slide-id-11 .slide-container.slide-10 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 10 !important;
+  transform: scale(3.5) !important; /* Scaled up significantly for deep zoom */
+}
+
+.presentation.slide-id-11 .slide-container.slide-9 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 7 !important;
+  transform: scale(4.0) !important;
+}
+
+.presentation.slide-id-11 .slide-container.slide-8 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 5 !important;
+  transform: scale(4.5) !important; /* Deepest layer */
+}
+
+/* Hide ghosts on Slide 11 */
+.presentation.slide-id-11 .slide-container.previous-slide:not(.slide-10):not(.slide-9):not(.slide-8) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+/* Hide all sub-content ghosts on Slide 11 */
+.presentation.slide-id-11 .slide-content-wrapper.fading {
+  display: none !important;
+}
+
+/* Specific styling for the long Vision title on Slide 11 */
+.presentation.slide-id-11 .slide-title {
+  font-size: 48px;
+  white-space: normal; /* Allow wrapping for the long vision statement */
+  line-height: 1.2;
+  max-width: 1200px;
+  text-align: center;
+}
+
+/* --- SLIDE 10 ACTIVE: Preserve BOTH Slide 9 and Slide 8 --- */
+.presentation.slide-id-10 .slide-container.slide-9 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 10 !important;
+  transform: scale(2.0) !important;
+}
+
+.presentation.slide-id-10 .slide-container.slide-8 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 5 !important;
+  transform: scale(2.6) !important;
+}
+
+/* Hide ghosts on Slide 10 */
+.presentation.slide-id-10 .slide-container.previous-slide:not(.slide-9):not(.slide-8) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+/* Hide Slide 9 sub-content (Timeline) */
+.presentation.slide-id-10 .slide-content-wrapper.fading:not(.slide-wrapper-9) {
+  display: none !important;
+}
+
+/* --- SLIDE 9 ACTIVE: Preserve Slide 8 --- */
+.presentation.slide-id-9 .slide-container.slide-8 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 10 !important;
+  transform: scale(2) !important;
+}
+
+/* Hide ghosts on Slide 9 */
+.presentation.slide-id-9 .slide-container.previous-slide:not(.slide-8) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+/* Hide Slide 8 sub-content (Competitors) */
+.presentation.slide-id-9 .slide-content-wrapper.fading:not(.slide-wrapper-8) {
+  display: none !important;
+}
+
+/* --- BRIGHTNESS & REVEAL --- */
+.presentation.slide-id-11 .slide-container.slide-10 .slide-image,
+.presentation.slide-id-11 .slide-container.slide-9 .slide-image,
+.presentation.slide-id-11 .slide-container.slide-8 .slide-image,
+.presentation.slide-id-10 .slide-container.slide-9 .slide-image,
+.presentation.slide-id-10 .slide-container.slide-8 .slide-image,
+.presentation.slide-id-9 .slide-container.slide-8 .slide-image {
+  filter: brightness(1) !important;
+  opacity: 1 !important;
+}
+
+/* Slide 11: Pure Scale (No Fade) */
+.presentation.slide-id-11 .current-slide .slide-image {
+  animation: pureScaleReveal 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Slides 9 & 10: Cinematic Fade + Scale */
+.presentation.slide-id-10 .current-slide .slide-image,
+.presentation.slide-id-9 .current-slide .slide-image {
+  animation: cinematicFadeIn 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes cinematicFadeIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pureScaleReveal {
+  0% { opacity: 1; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Cleanup for Slide 5 Why Them once we are on Slide 8+ */
+.presentation.slide-id-8 .slide-wrapper-5,
+.presentation.slide-id-9 .slide-wrapper-5,
+.presentation.slide-id-10 .slide-wrapper-5,
+.presentation.slide-id-11 .slide-wrapper-5 {
+  display: none !important;
+}
+
+/* -------------------------------------------------- */
+
+/* Timeline - Slide 9 */
+.timeline-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.timeline-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.timeline-track {
+  position: absolute;
+  top: 40px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.timeline-progress {
+  width: 50%; /* Progresses to 'Now' */
+  height: 100%;
+  background: linear-gradient(90deg, #4a29bb, #00f2ff);
+  box-shadow: 0 0 15px #00f2ff;
+  transform: translateX(-100%);
+  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+}
+
+.timeline-container.visible .timeline-progress {
+  transform: translateX(0);
+}
+
+.timeline-stages {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10%;
+}
+
+.timeline-stage {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.timeline-container.visible .timeline-stage {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-stage.now { transition-delay: 0.8s; }
+.timeline-stage.next { transition-delay: 1.5s; }
+
+.stage-marker {
+  width: 16px;
+  height: 16px;
+  background: #00f2ff;
+  border-radius: 50%;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 20px #00f2ff;
+}
+
+.timeline-stage.next .stage-marker {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+
+.marker-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: #00f2ff;
+  border-radius: 50%;
+  animation: marker-pulse 2s infinite ease-out;
+}
+
+@keyframes marker-pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+
+.stage-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.stage-tag {
+  font-family: "Georgia", serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: #00f2ff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.stage-tag.gray {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.stage-title {
+  font-family: "Georgia", serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.stage-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.timeline-item {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transform: translateX(-20px);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.timeline-container.visible .timeline-item {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.timeline-stage.next .timeline-item {
+  background: rgba(255, 255, 255, 0.01);
+  border-color: rgba(255, 255, 255, 0.02);
+}
+
+.item-bullet {
+  width: 6px;
+  height: 6px;
+  background: #00f2ff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00f2ff;
+}
+
+.timeline-stage.next .item-bullet {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+
+.timeline-item p {
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.timeline-stage.next .timeline-item p {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Staggered item delays */
+.delay-0 { transition-delay: 1.0s; }
+.delay-1 { transition-delay: 1.2s; }
+.delay-2 { transition-delay: 1.4s; }
+.delay-3 { transition-delay: 1.7s; }
+.delay-4 { transition-delay: 1.9s; }
+
+/* Ensure Slide 9 background dims slightly for focus */
+.presentation.slide-id-9.state-3 .slide-image {
+  filter: brightness(0.4) !important;
+  transition: filter 1.5s ease-in-out;
+}
+
+.presentation.slide-id-9.state-3 .slide-text {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 1s ease-in-out;
+}
+
+/* Founder - Slide 10 */
+.founder-container {
+  position: absolute;
+  top: 50%; /* Adjusted from 55% */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 500px; /* Reduced from 800px */
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  z-index: 200;
+}
+
+.founder-container.visible {
+  opacity: 1;
+}
+
+.founder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reduced from 25px */
+}
+
+.founder-item {
+  background: rgba(10, 10, 12, 0.4); /* Darker matching competitors */
+  backdrop-filter: blur(15px);
+  padding: 15px 30px; /* Reduced from 20px 40px */
+  border-radius: 16px; /* Slightly tighter */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Reduced from 20px */
+  transform: translateX(-20px);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.founder-container.visible .founder-item {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.founder-item.delay-0 { transition-delay: 0.2s; }
+.founder-item.delay-1 { transition-delay: 0.4s; }
+.founder-item.delay-2 { transition-delay: 0.6s; }
+
+.founder-bullet {
+  width: 8px; /* Reduced from 10px */
+  height: 8px;
+  background: #00f2ff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+.founder-item p {
+  font-family: "Georgia", serif;
+  font-size: 20px; /* Reduced from 24px */
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.founder-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: scale(1.05) translateX(10px);
+  border-color: rgba(0, 242, 255, 0.3);
+}
+
+/* Keep Slide 7 visible and scale it up slightly when Slide 8 is active */
+.presentation.slide-id-8 .slide-7.previous-slide {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 5 !important;
+  transform: scale(1.6) !important; /* Scaled up slightly from 1.4 */
+}
+
+/* Hide ALL other previous slides when on Slide 8 to prevent overlap (like Slide 5's Why Them) */
+.presentation.slide-id-8 .previous-slide:not(.slide-7) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Hide all previous sub-content (like Why Them or Pricing) when on Slide 8 */
+.presentation.slide-id-8 .slide-content-wrapper.fading {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Competitors List - Slide 8 */
+.competitors-container {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1000px;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  z-index: 200;
+}
+
+.competitors-container.visible {
+  opacity: 1;
+}
+
+.competitors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.competitor-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 12, 0.4);
+  backdrop-filter: blur(15px);
+  padding: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transform: translateX(-50px);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+}
+
+.competitor-left-section {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 0 40px;
+  width: 35%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.competitor-divider {
+  width: 1px;
+  height: 60%;
+  background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.3), transparent);
+}
+
+.competitor-right-section {
+  padding: 0 40px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gap-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Georgia", serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: #ff4d4d;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.competitors-container.visible .competitor-item {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.competitor-item.delay-0 { transition-delay: 0.1s; }
+.competitor-item.delay-1 { transition-delay: 0.3s; }
+.competitor-item.delay-2 { transition-delay: 0.5s; }
+.competitor-item.delay-3 { transition-delay: 0.7s; }
+
+.competitor-logo-wrapper {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 2;
+}
+
+.competitor-logo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.competitor-name {
+  font-family: "Georgia", serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.competitor-desc {
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.competitor-card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 77, 77, 0.03), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.competitor-item:hover {
+  border-color: rgba(255, 77, 77, 0.2);
+  background: rgba(10, 10, 12, 0.6);
+  transform: scale(1.02) translateX(10px);
+}
+
+.competitor-item:hover .competitor-divider {
+  background: linear-gradient(to bottom, transparent, rgba(255, 77, 77, 0.5), transparent);
+}
+
+.competitor-item:hover .gap-indicator {
+  opacity: 1;
+  text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+.slide-container.revealed.more-zoom {
+  transform: scale(2.2); /* Restored original scale */
+}
+
+.slide-container.revealed.darken .slide-image {
+  filter: brightness(0.4);
+}
+
+.slide-container.revealed .slide-image-wrapper {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* Previous Slide - Zooms past the camera while staying behind */
+.slide-container.previous-slide {
+  transform: scale(2.2); /* Set to 2.2 as requested */
+  z-index: 10;
+}
+
+.slide-container.previous-slide .slide-image {
+  /* Return to full brightness as it zooms out */
+  filter: brightness(1);
+}
+
+.slide-container.previous-slide .slide-image-wrapper {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* Hidden Slide */
+.slide-container.hidden-slide {
+  transform: scale(0);
+  z-index: 0;
+}
+
+/* Next Slide Preview - Behind text but on top of current image */
+.next-slide-preview {
+  transform: scale(0);
+  z-index: 3;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.next-slide-preview.visible {
+  transform: scale(0.5);
+  opacity: 1;
+}
+
+.next-slide-preview .slide-image-wrapper {
+  width: 50%;
+  max-width: 700px;
+  height: auto;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Slide Image Wrapper */
+.slide-image-wrapper {
+  position: relative;
+  transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-radius 2s ease;
+  overflow: hidden;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  transition: filter 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain; /* Changed from cover to see full video content */
+  display: block;
+  background-color: #000;
+  transform: scale(0.9); /* Slightly reduced scale as requested */
+  transition: transform 0.5s ease;
+}
+
+/* Slide Content Wrapper */
+.slide-content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1s ease-in-out, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-content-wrapper.visible {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 40; /* On top of everything */
+}
+
+.slide-content-wrapper.is-final-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-content-wrapper.is-final-logo .slide-title {
+  font-size: 120px; /* Dramatic size for the finale */
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.slide-content-wrapper.is-final-logo .slide-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200; /* Force in front of logo */
+  pointer-events: none;
+  transition: opacity 1.5s ease-in-out, transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-content-wrapper.is-final-logo .slide-text.fade-out {
+  opacity: 0;
+  transform: translate(-50%, -55%); /* Slight upward drift on fade */
+}
+
+.slide-content-wrapper.is-final-logo .hovera-3d-container {
+  z-index: 200; /* Place logo on top of the chart as requested */
+}
+
+.slide-content-wrapper.fading {
+  opacity: 1; /* Keep visible to show the image scaling up */
+  transform: scale(2.2); /* Restored to 2.2 as requested */
+  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 2s ease-in-out,
+              filter 1s ease-in-out;
+  pointer-events: none;
+  z-index: 20; /* Behind new slide but on top of its own image */
+}
+
+/* Darken Slide 5's "Why Them" card when Slide 6 reveals its points */
+.presentation.state-3 .slide-content-wrapper.fading .why-them-image-wrapper {
+  filter: brightness(0.5); /* Smoother, less aggressive darkness */
+  transition: filter 2s ease-in-out, transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.presentation.state-3 .previous-slide .slide-image {
+  filter: brightness(0.5); /* Smoother, less aggressive darkness */
+}
+
+/* Specific elements to fade out during the transition */
+.slide-content-wrapper.fading .slide-text,
+.slide-content-wrapper.fading .top-messages,
+.slide-content-wrapper.fading .tools-grid,
+.slide-content-wrapper.fading .users-grid,
+.slide-content-wrapper.fading .why-them-content,
+.slide-content-wrapper.fading .hovera-3d-container,
+.slide-content-wrapper.fading .donut-layout,
+.slide-content-wrapper.fading .pricing-container,
+.slide-content-wrapper.fading .competitors-container,
+.slide-content-wrapper.fading .timeline-container,
+.slide-content-wrapper.fading .founder-container {
+  opacity: 0;
+  transition: opacity 2s ease-out; /* Increased for smoothness */
+}
+
+/* Specific transition for Slide 6 zooming in when moving to Slide 7 */
+.presentation.slide-id-7 .is-final-logo.fading {
+  transform: scale(8) translateZ(0) !important; /* Optimized scale for performance */
+  opacity: 0 !important;
+  z-index: 9999; /* Absolute top layer */
+  pointer-events: none;
+  /* Removed expensive blur/brightness filters that caused lag on canvas elements */
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+  transition: transform 3.5s cubic-bezier(0.1, 0.4, 0.2, 1),
+              opacity 2.5s cubic-bezier(0.1, 0.4, 0.2, 1) !important;
+}
+
+/* Ensure the chart elements zoom smoothly without nested heavy transforms */
+.presentation.slide-id-7 .is-final-logo.fading .donut-layout,
+.presentation.slide-id-7 .is-final-logo.fading .hovera-3d-container {
+  opacity: 0 !important;
+  transform: translateZ(0) !important;
+  transition: opacity 2s ease-in-out !important;
+}
+
+/* Specific transition for Slide 6 text */
+.presentation.slide-id-7 .is-final-logo.fading .slide-text {
+  opacity: 0 !important;
+  transform: translate(-50%, -70%) translateZ(0) !important;
+  transition: opacity 2s ease-in-out, transform 3s ease-out !important;
+}
+
+/* Preserve Why Them image and scale it up slightly on Slide 7 */
+.presentation.slide-id-7 .slide-content-wrapper.fading .why-them-image-wrapper {
+  opacity: 1; /* Keep it fully preserved */
+  transform: scale(1.2); /* Scale up slightly from its original size */
+  filter: brightness(1); /* Remove the darkness as requested */
+  z-index: 45; /* Ensure it stays over Slide 7 image */
+  transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 3s ease-in-out,
+              filter 3s ease-in-out;
+}
+
+/* Also scale up the Slide 5 background image slightly on Slide 7 */
+.presentation.slide-id-7 .slide-container.previous-slide .slide-image {
+  transform: scale(1.1); /* Subscale effect */
+  opacity: 0.3; /* Fade background more */
+  transition: transform 3s ease-out, opacity 3s ease-out;
+}
+
+/* Ensure why-them image stays visible during the zoom */
+.slide-content-wrapper.fading .why-them-image-wrapper {
+  opacity: 1;
+  transform: scale(0.5); /* Reduced ONLY the card scale as requested */
+  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 2s ease-in-out;
+}
+
+/* Slide Text */
+.slide-text {
+  text-align: center;
+  transform: scale(0.8);
+  transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 1.5s ease-in-out;
+  opacity: 0;
+  z-index: 200;
+}
+
+.slide-text.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.slide-text.fade-out {
+  opacity: 0;
+  transform: scale(1.02); /* More subtle scale on fade out */
+  pointer-events: none;
+}
+
+.slide-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 84px; /* Increased for that dramatic look */
+  font-weight: 400; /* Normal weight for serif elegance */
+  color: #fff;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+
+.slide-subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* Top Messages */
+.top-messages {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 101;
+}
+
+.top-messages.visible {
+  opacity: 1;
+}
+
+.top-message {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 42px; /* Bigger */
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.top-messages.visible .top-message {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delays for top messages */
+.msg-delay-0 { transition-delay: 0.5s !important; }
+.msg-delay-1 { transition-delay: 1.5s !important; }
+.msg-delay-2 { transition-delay: 2.5s !important; }
+
+/* Tools Grid */
+.tools-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  padding: 100px;
+  gap: 40px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 50;
+}
+
+.tools-grid.visible {
+  opacity: 1;
+}
+
+.tool-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  opacity: 0;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+}
+
+/* Scale Reveal Animation */
+@keyframes logoScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+.animate.reveal-scale {
+  animation: logoScaleIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Staggered delays for tool logos */
+.logo-delay-0 { animation-delay: 0.1s !important; }
+.logo-delay-1 { animation-delay: 0.2s !important; }
+.logo-delay-2 { animation-delay: 0.3s !important; }
+.logo-delay-3 { animation-delay: 0.4s !important; }
+.logo-delay-4 { animation-delay: 0.5s !important; }
+.logo-delay-5 { animation-delay: 0.6s !important; }
+.logo-delay-6 { animation-delay: 0.7s !important; }
+.logo-delay-7 { animation-delay: 0.8s !important; }
+.logo-delay-8 { animation-delay: 0.9s !important; }
+.logo-delay-9 { animation-delay: 1.0s !important; }
+
+/* 3D Holographic Chart */
+.hovera-3d-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 101;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hovera-3d-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 140px; /* Reduced from 180 */
+  padding: 12px;
+  background: rgba(74, 179, 165, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.node-icon {
+  width: 45px; /* Reduced from 60 */
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 179, 165, 0.3);
+  border-radius: 50%;
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.node-label {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px; /* Reduced from 16 */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.core-logo-container {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 30px rgba(74, 41, 187, 0.8));
+  transition: width 1.5s ease-in-out, height 1.5s ease-in-out;
+}
+
+.core-logo-container.large {
+  width: 450px; /* Big hero size for Slide 6 initial reveal */
+  height: 450px;
+}
+
+.core-logo-container.reduced {
+  width: 180px; /* Reduced as requested */
+  height: 180px;
+}
+
+.core-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: logo-hero-float 6s infinite ease-in-out;
+}
+
+@keyframes logo-hero-float {
+  0%, 100% { transform: translateY(0) scale(1); filter: brightness(1); }
+  50% { transform: translateY(-10px) scale(1.05); filter: brightness(1.2); }
+}
+
+/* Users Grid - Slide 5 */
+.users-grid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  width: 100%;
+  padding: 0 100px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+  z-index: 101;
+}
+
+.users-grid.visible {
+  opacity: 1;
+}
+
+.users-grid.disappearing {
+  opacity: 0;
+  transform: translate(-50%, -50%); /* Removed scale(2) for normal fade out */
+  transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.user-card {
+  flex: 1;
+  max-width: 500px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 1.5s ease-in-out;
+}
+
+.users-grid.visible .user-card {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.user-delay-0 { transition-delay: 0.2s; }
+.user-delay-1 { transition-delay: 0.5s; }
+
+.user-image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+.user-title-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 36px;
+  font-weight: 400;
+  text-align: center;
+  width: 90%;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* Why Them - Slide 5 */
+.why-them-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+  z-index: 102; /* On top of users grid */
+}
+
+.why-them-container.visible {
+  opacity: 1;
+}
+
+.why-them-image-wrapper {
+  position: relative;
+  width: 60%;
+  max-width: 800px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6);
+  transform: scale(0.5);
+  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.why-them-container.visible .why-them-image-wrapper {
+  transform: scale(1);
+}
+
+.why-them-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.7;
+}
+
+.why-them-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%;
+}
+
+.why-them-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 64px;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+.why-them-subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive Users Grid */
+@media (max-width: 1024px) {
+  .users-grid {
+    gap: 40px;
+    padding: 0 40px;
+  }
+  .user-title-overlay {
+    font-size: 24px;
+  }
+}
+
+/* Footer - Overlay on top of image */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.footer-left,
+.footer-right {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+/* Donut Layout - Slide 6 */
+.donut-layout {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.donut-layout.visible {
+  opacity: 1;
+}
+
+.donut-graphic {
+  position: relative;
+  width: 440px; /* Reduced chart size as requested */
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Removed moving/floating effect as requested */
+}
+
+.donut-graphic::after {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(74, 41, 187, 0.15) 0%, transparent 70%);
+  animation: storm-glow-pulse 8s infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes storm-glow-pulse {
+  from { opacity: 0.2; transform: scale(0.9); }
+  to { opacity: 0.4; transform: scale(1.1); }
+}
+
+.donut-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.donut-segment-path {
+  fill: rgba(36, 20, 104, 0.5);
+  stroke: rgba(0, 242, 255, 0.5);
+  stroke-width: 0.5;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+  animation: stormy-pulse 4s infinite ease-in-out;
+}
+
+@keyframes stormy-pulse {
+  0%, 100% {
+    fill: rgba(36, 20, 104, 0.5);
+    filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.2));
+  }
+  50% {
+    fill: rgba(74, 41, 187, 0.6);
+    filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.5));
+  }
+}
+
+.donut-segment-path:nth-child(2) { animation-delay: -1.3s; }
+.donut-segment-path:nth-child(3) { animation-delay: -2.6s; }
+
+.donut-segment-path:hover {
+  fill: rgba(74, 41, 187, 0.8);
+  stroke: rgba(0, 242, 255, 0.8);
+  filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.9)) brightness(1.5);
+}
+
+.donut-icon {
+  position: absolute;
+    width: 50px;
+    height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 10;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+}
+
+.donut-segment-path:hover + .donut-icon {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.icon-wrapper {
+  font-size: 32px;
+  font-weight: 200;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+/* Precise geometric centering for icons within segments */
+.icon-left {
+  left: 13%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icon-top-right {
+  right: 34%;
+  top: 15%;
+}
+
+.icon-bottom-right {
+  right: 25%;
+  bottom: 20%;
+}
+
+/* Content Positioning - Closer to chart, no lines */
+.donut-content-left,
+.donut-content-right-top,
+.donut-content-right-bottom {
+  position: absolute;
+  width: 450px;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  z-index: 200;
+}
+
+.donut-content-left {
+  left: 60px;
+  text-align: right;
+  padding-right: 40px;
+}
+
+.donut-content-right-top {
+  right: 200px;
+  top: 18%;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.donut-content-right-bottom {
+  right: 200px;
+  bottom: 12%;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.donut-label {
+  font-family: "Georgia", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 15px rgba(0, 242, 255, 0.4), 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.donut-description {
+  display: none; /* Removed as requested */
+}
+
+/* Ensure Slide 6 title fades when donut appears */
+.presentation.state-3 .is-final-logo .slide-text {
+  opacity: 0;
+  transform: translate(-50%, -60%);
+  transition: all 1.5s ease-in-out;
+}
+
+/* Pricing Plans - Slide 7 */
+.pricing-container {
+  position: absolute;
+  top: 50%; /* Adjusted from 55% */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1100px; /* Reduced from 1400px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px; /* Reduced gap */
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.pricing-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.who-pays-banner {
+  padding: 10px 0;
+  color: #fff;
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+}
+
+.who-pays-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background: #00f2ff;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+.pricing-container.visible .who-pays-banner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.who-pays-banner span {
+  color: #00f2ff;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px; /* Reduced gap */
+  width: 100%;
+}
+
+.pricing-card {
+  background: #0a0a0c;
+  border-radius: 20px; /* Slightly reduced */
+  padding: 30px 20px; /* Reduced from 40px 30px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(40px);
+  opacity: 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.pricing-container.visible .pricing-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pricing-card.delay-0 { transition-delay: 0.1s; }
+.pricing-card.delay-1 { transition-delay: 0.2s; }
+.pricing-card.delay-2 { transition-delay: 0.3s; }
+.pricing-card.delay-3 { transition-delay: 0.4s; }
+
+.pricing-card.popular {
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  transform: translateY(30px) scale(1); /* Removed scale 1.02 */
+}
+
+.pricing-container.visible .pricing-card.popular {
+  transform: translateY(-5px) scale(1.02); /* Reduced lift and scale */
+  box-shadow: 0 30px 60px rgba(0, 242, 255, 0.12);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 15px; /* Moved up */
+  background: #00f2ff;
+  color: #000;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 10px; /* Reduced from 12px */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plan-name {
+  font-size: 20px; /* Reduced from 24px */
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.plan-price .amount {
+  font-size: 42px; /* Reduced from 56px */
+  font-weight: 800;
+}
+
+.plan-price .period {
+  font-size: 14px; /* Reduced from 18px */
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 3px;
+}
+
+.plan-meta {
+  font-size: 12px; /* Reduced from 14px */
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 20px;
+}
+
+.credits-pill {
+  background: rgba(0, 242, 255, 0.05);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  color: #00f2ff;
+  padding: 6px 16px; /* Reduced padding */
+  border-radius: 100px;
+  font-size: 12px; /* Reduced from 14px */
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 25px;
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  margin-bottom: 30px; /* Reduced gap */
+  flex-grow: 1;
+}
+
+.plan-features li {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px; /* Reduced from 15px */
+  margin-bottom: 10px; /* Reduced spacing */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.feature-icon {
+  color: #00f2ff;
+  font-size: 12px;
+  width: 16px;
+  text-align: center;
+}
+
+.plan-features li.disabled {
+  color: rgba(255, 255, 255, 0.2);
+  text-decoration: line-through;
+}
+
+.plan-features li.disabled .feature-icon {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure Slide 7 title fades more when pricing appears */
+.presentation.slide-id-7.state-3 .slide-text {
+  opacity: 0.2;
+  transform: translateY(-100px) scale(0.9);
+  filter: blur(10px);
+}
+
+/* Responsive Pricing */
+@media (max-width: 1200px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-container {
+    top: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
