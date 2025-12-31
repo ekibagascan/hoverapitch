@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import HoveraCore from "./HoveraCore";
 import "./Presentation.css";
 
@@ -6,10 +6,31 @@ const Presentation = ({ slides }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [revealState, setRevealState] = useState(0); // 0: initial, 1: revealing, 2: revealed, 3: secondary, 4: tertiary
   const [textColor, setTextColor] = useState("#000"); // Dynamic text color based on image brightness
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [startTime, setStartTime] = useState(null);
   const imageRefs = useRef({});
   const videoRef = useRef(null);
+  const notesWindowRef = useRef(null);
 
-  const handleNext = () => {
+  const goToNextSlide = useCallback(() => {
+    setCurrentSlideIndex((prevIndex) => {
+      if (prevIndex >= slides.length - 1) return prevIndex;
+      const nextIndex = prevIndex + 1;
+
+      const nextSlide = slides[nextIndex];
+      if (nextSlide.video) {
+        setRevealState(2); // Videos show immediately
+      } else {
+        setRevealState(1); // Images start scaling
+        setTimeout(() => {
+          setRevealState((prev) => (prev === 1 ? 2 : prev));
+        }, 2500);
+      }
+      return nextIndex;
+    });
+  }, [slides]);
+
+  const handleNext = useCallback(() => {
     const currentSlide = slides[currentSlideIndex];
     if (!currentSlide) return;
 
@@ -31,17 +52,15 @@ const Presentation = ({ slides }) => {
     );
     const hasTertiary = !!currentSlide.whyThem;
 
+    if (!startTime) setStartTime(Date.now());
+
     // Navigation State Machine
     if (revealState === 0) {
-      // Step 1: Start image scale-up
       setRevealState(1);
-      // Wait for animation to finish before showing text (State 2)
-      // Start text reveal slightly before scale ends for smoothness (2.5s)
       setTimeout(() => {
         setRevealState((prev) => (prev === 1 ? 2 : prev));
       }, 2500);
     } else if (revealState === 1) {
-      // Skip animation if user clicks during scale
       setRevealState(2);
     } else if (revealState === 2) {
       if (hasSecondary) {
@@ -60,27 +79,9 @@ const Presentation = ({ slides }) => {
     } else {
       goToNextSlide();
     }
-  };
+  }, [currentSlideIndex, revealState, slides, goToNextSlide]);
 
-  const goToNextSlide = () => {
-    setCurrentSlideIndex((prevIndex) => {
-      if (prevIndex >= slides.length - 1) return prevIndex;
-      const nextIndex = prevIndex + 1;
-
-      const nextSlide = slides[nextIndex];
-      if (nextSlide.video) {
-        setRevealState(2); // Videos show immediately
-      } else {
-        setRevealState(1); // Images start scaling
-        setTimeout(() => {
-          setRevealState((prev) => (prev === 1 ? 2 : prev));
-        }, 2500);
-      }
-      return nextIndex;
-    });
-  };
-
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (revealState === 4) {
       setRevealState(3);
     } else if (revealState === 3) {
@@ -92,7 +93,6 @@ const Presentation = ({ slides }) => {
         const nextIndex = prevIndex - 1;
         const prevSlide = slides[nextIndex];
 
-        // Restore the furthest state of the previous slide
         if (prevSlide.whyThem) {
           setRevealState(4);
         } else if (
@@ -108,7 +108,224 @@ const Presentation = ({ slides }) => {
         return nextIndex;
       });
     }
+  }, [currentSlideIndex, revealState, slides]);
+
+  // Sync speaker notes when slide or state changes (COMMUNICATION ONLY)
+  useEffect(() => {
+    const syncNotes = () => {
+      if (notesWindowRef.current && !notesWindowRef.current.closed) {
+        const slide = slides[currentSlideIndex];
+        const nextSlide = slides[currentSlideIndex + 1];
+
+        notesWindowRef.current.postMessage(
+          {
+            type: "update",
+            currentSlideIndex,
+            revealState,
+            startTime,
+            notes: slide.notes || "No notes for this slide.",
+            nextSlideImage: nextSlide?.image || null,
+            nextSlideTitle: nextSlide?.title || "Untitled",
+            slides: slides.map((s, i) => ({
+              image: s.image,
+              id: s.id,
+            })),
+          },
+          "*"
+        );
+      }
+    };
+
+    syncNotes();
+    const interval = setInterval(syncNotes, 1000);
+    return () => clearInterval(interval);
+  }, [currentSlideIndex, revealState, slides, startTime]);
+
+  // Handle messages from Speaker View
+  useEffect(() => {
+    const handleMessage = (e) => {
+      if (e.data === "next") handleNext();
+      if (e.data === "prev") handlePrev();
+      if (e.data === "reset-timer") setStartTime(null);
+      if (e.data === "start-timer" && !startTime) setStartTime(Date.now());
+      if (e.data && e.data.type === "goto") {
+        setCurrentSlideIndex(e.data.index);
+        setRevealState(2);
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [handleNext, handlePrev, startTime]);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((e) => {
+        console.error(`Error attempting to enable fullscreen: ${e.message}`);
+      });
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    }
   };
+
+  const openSpeakerNotes = () => {
+    if (notesWindowRef.current && !notesWindowRef.current.closed) {
+      notesWindowRef.current.focus();
+      return;
+    }
+
+    const win = window.open("", "HoveraNotes", "width=1200,height=800");
+    notesWindowRef.current = win;
+
+    const initialHtml = `
+      <html>
+        <head>
+          <title>Hovera - Presenter View</title>
+          <style>
+            * { box-sizing: border-box; }
+            body { 
+              background: #0a0a0c; 
+              color: #fff; 
+              font-family: 'Inter', sans-serif; 
+              margin: 0; 
+              display: flex; 
+              flex-direction: column; 
+              height: 100vh; 
+              overflow: hidden; 
+            }
+            .top-bar { height: 60px; background: #16161a; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .timer { font-family: monospace; font-size: 28px; color: #00f2ff; }
+            .main-content { flex: 1; display: flex; padding: 40px; gap: 40px; overflow: hidden; }
+            .notes-section { flex: 3; overflow-y: auto; padding-right: 20px; }
+            .preview-section { flex: 2; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px; }
+            .notes-text { font-size: 24px; line-height: 1.5; font-family: 'Georgia', serif; white-space: pre-wrap; color: #eee; }
+            .status { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin-bottom: 10px; }
+            .next-preview { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+            .next-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+            .bottom-bar { height: 180px; background: #16161a; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; padding: 0 20px; gap: 20px; }
+            .slides-strip { display: flex; gap: 15px; overflow-x: auto; flex: 1; padding: 10px 0; scrollbar-width: thin; }
+            .slide-thumb { min-width: 160px; height: 90px; background: #000; border-radius: 8px; border: 2px solid transparent; cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s ease; }
+            .slide-thumb.active { border-color: #00f2ff; transform: scale(1.05); }
+            .slide-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+            .slide-thumb.active img { opacity: 1; }
+            .nav-btn { width: 50px; height: 50px; border-radius: 50%; background: #fff; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+            .nav-btn:hover { background: #00f2ff; }
+            button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
+            button:hover { background: rgba(255,255,255,0.2); }
+          </style>
+        </head>
+        <body>
+          <div class="top-bar">
+            <div class="timer" id="timer">00:00:00</div>
+            <div style="display:flex; gap:10px;">
+              <button onclick="window.opener.postMessage('start-timer', '*')">Start Timer</button>
+              <button onclick="window.opener.postMessage('reset-timer', '*')">Reset Timer</button>
+            </div>
+          </div>
+          <div class="main-content">
+            <div class="notes-section">
+              <div class="status" id="slide-status">Speaker Notes</div>
+              <div class="notes-text" id="notes-content">Ready to present.</div>
+            </div>
+            <div class="preview-section">
+              <div class="status">Next Slide</div>
+              <div class="next-preview" id="next-preview"></div>
+              <div id="next-title" style="margin-top: 15px; font-size: 18px; color: rgba(255,255,255,0.6); font-family: 'Georgia', serif;"></div>
+            </div>
+          </div>
+          <div class="bottom-bar">
+            <button class="nav-btn" onclick="window.opener.postMessage('prev', '*')">‹</button>
+            <div class="slides-strip" id="strip"></div>
+            <button class="nav-btn" onclick="window.opener.postMessage('next', '*')">›</button>
+          </div>
+
+          <script>
+            let currentStartTime = null;
+            let timerInterval = null;
+
+            window.addEventListener('message', (e) => {
+              const data = e.data;
+              if (data.type === 'update') {
+                // Update Notes & Status
+                document.getElementById('notes-content').innerText = data.notes;
+                document.getElementById('slide-status').innerText = 'Speaker Notes - Slide ' + (data.currentSlideIndex + 1);
+                
+                // Update Preview
+                const nextPreview = document.getElementById('next-preview');
+                nextPreview.innerHTML = data.nextSlideImage ? '<img src="' + data.nextSlideImage + '">' : '<div style="padding:40px; color: #333;">No Preview</div>';
+                document.getElementById('next-title').innerText = data.nextSlideTitle;
+
+                // Update Strip
+                const strip = document.getElementById('strip');
+                strip.innerHTML = data.slides.map((s, i) => \`
+                  <div class="slide-thumb \${i === data.currentSlideIndex ? 'active' : ''}" onclick="window.opener.postMessage({type: 'goto', index: \${i}}, '*')">
+                    \${s.image ? '<img src="' + s.image + '">' : '<div style="height:100%; background:#222;"></div>'}
+                  </div>
+                \`).join('');
+
+                // Auto Scroll
+                const active = strip.querySelector('.slide-thumb.active');
+                if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+                // Robust Timer Logic (Persistent)
+                if (data.startTime) {
+                  if (data.startTime !== currentStartTime) {
+                    currentStartTime = data.startTime;
+                    if (timerInterval) clearInterval(timerInterval);
+                    timerInterval = setInterval(updateTimerDisplay, 1000);
+                    updateTimerDisplay();
+                  }
+                } else if (!data.startTime) {
+                  document.getElementById('timer').innerText = '00:00:00';
+                  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+                  currentStartTime = null;
+                }
+              }
+            });
+
+            // Keyboard Navigation (FIXED)
+            window.focus();
+            window.addEventListener('keydown', (e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                window.opener.postMessage('next', '*');
+              } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                window.opener.postMessage('prev', '*');
+              }
+            }, true);
+
+            // Timer display helper
+            function updateTimerDisplay() {
+              if (!currentStartTime) {
+                document.getElementById('timer').innerText = '00:00:00';
+                return;
+              }
+              const elapsed = Math.floor((Date.now() - currentStartTime) / 1000);
+              const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+              const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+              const s = String(elapsed % 60).padStart(2, '0');
+              document.getElementById('timer').innerText = h + ':' + m + ':' + s;
+            }
+          </script>
+        </body>
+      </html>
+    `;
+    win.document.write(initialHtml);
+    win.document.close();
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -117,6 +334,10 @@ const Presentation = ({ slides }) => {
         handleNext();
       } else if (e.key === "ArrowLeft") {
         handlePrev();
+      } else if (e.key === "f") {
+        toggleFullscreen();
+      } else if (e.key === "n") {
+        openSpeakerNotes();
       } else if (e.key === " ") {
         const currentSlide = slides[currentSlideIndex];
         if (currentSlide.video && videoRef.current) {
@@ -129,7 +350,7 @@ const Presentation = ({ slides }) => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [currentSlideIndex, revealState, slides]);
+  }, [currentSlideIndex, revealState, slides, handleNext, handlePrev]);
 
   // Video Autoplay logic
   useEffect(() => {
@@ -768,6 +989,28 @@ const Presentation = ({ slides }) => {
       >
         <div className="footer-left">©2026 HOVERA, ALL RIGHT RESERVED.</div>
         <div className="footer-right">EKI BAGAS</div>
+      </div>
+
+      {/* Presentation Controls (Speaker Only) */}
+      <div className="presentation-controls">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFullscreen();
+          }}
+          title="Toggle Fullscreen (F)"
+        >
+          {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            openSpeakerNotes();
+          }}
+          title="Open Speaker Notes (N)"
+        >
+          Speaker View
+        </button>
       </div>
     </div>
   );

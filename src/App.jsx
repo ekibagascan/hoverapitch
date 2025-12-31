@@ -9,12 +9,16 @@ function App() {
       image: "/slide_1.png",
       title: "Build Robots with Just Prompts",
       subtitle: "From idea to working robot in minutes",
+      notes:
+        "“Imagine if building robots was as easy as building software.\n\nHovera lets you build real, working robots just by describing what you want.\nNo CAD headaches, no wiring guesswork, no jumping between ten different tools.\n\nFrom an idea to a working robot — in minutes.”",
     },
     {
       id: 2,
       image: "/slide_2.png",
       title: "Robotics Is Still Too Hard",
       subtitle: "",
+      notes:
+        "“Today, robotics is still way too hard.\n\nEven a simple robot requires stitching together multiple tools: code editors, wiring diagrams, CAD software, simulators, and firmware tools.\n\nFor students and makers, this technical friction kills ideas before they ever touch real hardware.”",
       topMessages: [
         "Too many tools, no single workflow",
         "Too much technical friction",
@@ -29,6 +33,8 @@ function App() {
       image: "/slide_3.jpeg",
       title: "One Prompt. Complete Robot.",
       subtitle: "",
+      notes:
+        "“Hovera removes that friction.\n\nYou write a prompt describing the robot you want.\nHovera generates the entire system:\nthe logic flowchart, production-ready code, wiring diagram, 3D-printable design, simulation, and step-by-step instructions.\n\nOne prompt. One workflow. A real robot.”",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -46,16 +52,22 @@ function App() {
       image: "/slide_4.jpeg",
       title: "How it works",
       subtitle: "",
+      notes:
+        "“Hovera is an intent-driven robotics pipeline.\n\nYou describe your goal.\nHovera generates the full system.\nYou simulate it.\nThen you upload directly to hardware and run it.\n\nHovera isn’t trying to replace engineers — it removes the tech friction so they can actually build robots faster.”",
     },
     {
       id: "video",
       video: "/demo.mp4", // Placeholder for demo video
+      notes:
+        "Let's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then pushes it directly to the hardware.",
     },
     {
       id: 5,
       image: "/slide_5.jpeg",
       title: "Focused Early Users",
       subtitle: "",
+      notes:
+        "“We start with a focused market.\nEngineering students and makers.\n\nWhy? \nThey have urgent deadlines, real projects, limited budgets, and they actively share tools with each other.\n\nThis is the perfect early adopter group to validate fast before expanding to labs, startups, and education institutions.”",
       users: [
         { image: "/student.png", title: "Engineering students" },
         { image: "/maker.png", title: "Makers and hobbyists" },
@@ -70,6 +82,8 @@ function App() {
       id: 6,
       title: "Why Hovera Is Different",
       subtitle: "",
+      notes:
+        "“Most tools help you write code.\nHovera helps you build robots.\n\nIt’s end-to-end, hardware-aware, and learns from real-world builds.\nThat’s the difference.”",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -99,6 +113,8 @@ function App() {
       image: "/slide_7.png",
       title: "Built for Adoption First, Scale Later",
       subtitle: "",
+      notes:
+        "“Hovera follows a freemium, usage-based model.\n\nUsers start free, then upgrade as they build more complex robots.\nStudents upgrade first, labs and teams scale usage later.\n\nAs people build more robots, revenue grows naturally.”",
       pricing: {
         whoPays: "Students, makers, and companies at scale",
         plans: [
@@ -171,6 +187,8 @@ function App() {
       image: "/slide_8.png",
       title: "Why Existing Tools Fall Short",
       subtitle: "",
+      notes:
+        "“Existing tools only solve parts of the problem.\n\nCursor focuses on app development, not robotics.\nArduino requires manual coding.\nROS is powerful but complex.\nFritzing is manual wiring.\n\nNo existing tool generates the entire robot system from intent to hardware.\nThat’s the gap Hovera fills.”",
       competitors: [
         {
           name: "Cursor",
@@ -199,6 +217,8 @@ function App() {
       image: "/slide_9.png",
       title: "Where We Are",
       subtitle: "",
+      notes:
+        "“Hovera is already in public beta.\n\nEarly users are building real projects using the full pipeline — from prompt, to simulation, to direct hardware upload.\n\nThe core system is live and improving through real usage.”",
       timeline: {
         now: [
           "Public beta live with early users",
@@ -216,6 +236,8 @@ function App() {
       image: "/slide_10.PNG",
       title: "Founder",
       subtitle: "",
+      notes:
+        "“I’m a solo founder building this from personal pain.\n\nI’ve experienced how hard robotics is firsthand, and I’m building the tool I wish existed.”",
       founder: [
         "Eki Bagas - Solo founder",
         "Robotics + software background",
@@ -227,6 +249,8 @@ function App() {
       image: "/slide_11.PNG",
       title: "Make building robots as accessible as building software.",
       subtitle: "",
+      notes:
+        "“Our long-term vision is simple:\n\nMake building robots as accessible as building software.”\n\n“Hovera lowers the barrier between ideas and real machines.\n\nWe’re looking for feedback, pilot users, and early supporters to help shape the future of robotics.\n\nBuild robots as easily as software.”",
     },
   ];
 
