@@ -8,6 +8,16 @@ const Presentation = ({ slides }) => {
   const [textColor, setTextColor] = useState("#000"); // Dynamic text color based on image brightness
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const [isWebcamActive, setIsWebcamActive] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
+  const [recordingStartTime, setRecordingStartTime] = useState(null);
+  const webcamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
+  const screenStreamRef = useRef(null);
+  const webcamStreamRef = useRef(null);
   const imageRefs = useRef({});
   const videoRef = useRef(null);
   const notesWindowRef = useRef(null);
@@ -318,6 +328,154 @@ const Presentation = ({ slides }) => {
     win.document.close();
   };
 
+  const toggleWebcam = async () => {
+    if (!isWebcamActive) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 480, height: 480, frameRate: { ideal: 30 } },
+          audio: false,
+        });
+        webcamStreamRef.current = stream;
+        if (webcamRef.current) webcamRef.current.srcObject = stream;
+        setIsWebcamActive(true);
+      } catch (err) {
+        console.error("Webcam error:", err);
+        alert("Could not access webcam. Please check permissions.");
+      }
+    } else {
+      if (webcamStreamRef.current) {
+        webcamStreamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      setIsWebcamActive(false);
+    }
+  };
+
+  const startRecording = async () => {
+    // Guard against multiple calls
+    if (
+      isRecording ||
+      (mediaRecorderRef.current &&
+        mediaRecorderRef.current.state !== "inactive")
+    )
+      return;
+
+    try {
+      // 🚀 High-Quality Display Capture
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          frameRate: { ideal: 60, max: 60 }, // 60 FPS for smooth motion
+          width: { ideal: 1920 }, // Full HD width
+          height: { ideal: 1080 }, // Full HD height
+        },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      });
+      screenStreamRef.current = screenStream;
+
+      // 💎 Ultra-HD Bitrate & Codec Selection
+      const types = [
+        "video/webm;codecs=h264", // Best for compatibility and conversion to MP4
+        "video/webm;codecs=vp9", // High efficiency
+        "video/webm;codecs=vp8",
+      ];
+      const mimeType =
+        types.find((type) => MediaRecorder.isTypeSupported(type)) ||
+        "video/webm";
+
+      const recorder = new MediaRecorder(screenStream, {
+        mimeType,
+        videoBitsPerSecond: 20000000, // 🔥 20 Mbps for crystal clear video
+      });
+
+      recordedChunksRef.current = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordedChunksRef.current.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        if (recordedChunksRef.current.length > 0) {
+          const blob = new Blob(recordedChunksRef.current, {
+            type: mimeType,
+          });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          // Note: Browsers natively export as .webm, but high bitrate makes it sharp
+          a.download = `Hovera-UltraHD-Pitch-${new Date().toISOString()}.webm`;
+          a.click();
+          URL.revokeObjectURL(url);
+
+          // CRITICAL: Clear chunks after download
+          recordedChunksRef.current = [];
+        }
+
+        // Reset UI state
+        setIsRecording(false);
+        setIsPaused(false);
+        setRecordingStartTime(null);
+
+        // Clean up tracks
+        if (screenStreamRef.current) {
+          screenStreamRef.current.getTracks().forEach((t) => t.stop());
+          screenStreamRef.current = null;
+        }
+      };
+
+      // Handle browser's own "Stop sharing" bar
+      screenStream.getTracks()[0].onended = () => {
+        if (recorder.state !== "inactive") {
+          recorder.stop();
+        }
+      };
+
+      recorder.start(1000); // Buffer every 1s for safety
+      mediaRecorderRef.current = recorder;
+      setIsRecording(true);
+      setRecordingStartTime(Date.now());
+    } catch (err) {
+      console.error("Recording error:", err);
+      setIsRecording(false);
+    }
+  };
+
+  const stopRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const pauseRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setIsPaused(true);
+    }
+  };
+
+  const resumeRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setIsPaused(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isWebcamActive && webcamRef.current && webcamStreamRef.current) {
+      webcamRef.current.srcObject = webcamStreamRef.current;
+    }
+  }, [isWebcamActive]);
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -338,6 +496,16 @@ const Presentation = ({ slides }) => {
         toggleFullscreen();
       } else if (e.key === "n") {
         openSpeakerNotes();
+      } else if (e.shiftKey && e.key.toLowerCase() === "r") {
+        isRecording ? stopRecording() : startRecording();
+      } else if (e.shiftKey && e.key.toLowerCase() === "p") {
+        if (isRecording) {
+          isPaused ? resumeRecording() : pauseRecording();
+        }
+      } else if (e.shiftKey && e.key.toLowerCase() === "w") {
+        toggleWebcam();
+      } else if (e.shiftKey && e.key.toLowerCase() === "h") {
+        setIsMenuVisible((prev) => !prev);
       } else if (e.key === " ") {
         const currentSlide = slides[currentSlideIndex];
         if (currentSlide.video && videoRef.current) {
@@ -350,7 +518,15 @@ const Presentation = ({ slides }) => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [currentSlideIndex, revealState, slides, handleNext, handlePrev]);
+  }, [
+    currentSlideIndex,
+    revealState,
+    slides,
+    handleNext,
+    handlePrev,
+    isRecording,
+    isWebcamActive,
+  ]);
 
   // Video Autoplay logic
   useEffect(() => {
@@ -1011,6 +1187,62 @@ const Presentation = ({ slides }) => {
         >
           Speaker View
         </button>
+      </div>
+
+      {/* Webcam Bubble Overlay */}
+      {isWebcamActive && (
+        <div className="webcam-bubble">
+          <video
+            ref={webcamRef}
+            autoPlay
+            playsInline
+            muted
+            className="webcam-video"
+          />
+        </div>
+      )}
+
+      {/* Recording Indicator & Controls */}
+      {(isRecording || isWebcamActive) && isMenuVisible && (
+        <div className="recording-controls">
+          {isRecording && (
+            <div className="recording-status">
+              <div
+                className={`recording-dot ${isPaused ? "paused" : ""}`}
+              ></div>
+              <span>{isPaused ? "PAUSED" : "RECORDING"}</span>
+            </div>
+          )}
+          <div className="control-buttons">
+            <button onClick={toggleWebcam} title="Toggle Webcam (Shift+W)">
+              {isWebcamActive ? "Hide Camera" : "Show Camera"}
+            </button>
+            {isRecording && (
+              <button
+                onClick={isPaused ? resumeRecording : pauseRecording}
+                title="Pause/Resume (Shift+P)"
+              >
+                {isPaused ? "Resume" : "Pause"}
+              </button>
+            )}
+            <button
+              onClick={isRecording ? stopRecording : startRecording}
+              className={isRecording ? "stop-btn" : "record-btn"}
+              title="Toggle Record (Shift+R)"
+            >
+              {isRecording ? "Stop Recording" : "Start Recording"}
+            </button>
+            <button
+              onClick={() => setIsMenuVisible(false)}
+              title="Hide Menu (Shift+H)"
+            >
+              Hide Menu
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="shortcut-hint">
+        Shift+W: Cam | Shift+R: Record | Shift+P: Pause | Shift+H: Menu
       </div>
     </div>
   );
