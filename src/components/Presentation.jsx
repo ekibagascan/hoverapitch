@@ -616,6 +616,8 @@ const Presentation = ({ slides }) => {
             index === 3 && slides[currentSlideIndex].id === 5;
 
           let slideClass = "slide-container";
+          if (slide.id === 1) slideClass += " slide-1";
+          if (slide.id === 2) slideClass += " slide-2";
           if (slide.id === 5) slideClass += " slide-5";
           if (slide.id === 7) slideClass += " slide-7";
           if (slide.id === 8) slideClass += " slide-8";
@@ -1241,9 +1243,6 @@ const Presentation = ({ slides }) => {
           </div>
         </div>
       )}
-      <div className="shortcut-hint">
-        Shift+W: Cam | Shift+R: Record | Shift+P: Pause | Shift+H: Menu
-      </div>
     </div>
   );
 };

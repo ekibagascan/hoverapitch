@@ -30,7 +30,7 @@ function App() {
     },
     {
       id: 3,
-      image: "/slide_3.jpeg",
+      image: "/slide_3.png",
       title: "One Prompt. Complete Robot.",
       subtitle: "",
       notes:
@@ -49,7 +49,7 @@ function App() {
     },
     {
       id: 4,
-      image: "/slide_4.jpeg",
+      image: "/slide_4.png",
       title: "How it works",
       subtitle: "",
       notes:
@@ -63,7 +63,7 @@ function App() {
     },
     {
       id: 5,
-      image: "/slide_5.jpeg",
+      image: "/slide_5.jpg",
       title: "Focused Early Users",
       subtitle: "",
       notes:
