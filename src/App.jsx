@@ -133,7 +133,7 @@ function App() {
               "Visual Design - Limited",
               { text: "3D Design (CAD Models)", disabled: true },
               { text: "3D Simulation", disabled: true },
-              "Direct Upload to Hardware",
+              "Direct Upload to Hardware (Soon)",
             ],
           },
           {
@@ -150,7 +150,7 @@ function App() {
               "Visual Design",
               "3D Design (CAD Models)",
               "3D Simulation",
-              "Direct Upload to Hardware",
+              "Direct Upload to Hardware (Soon)",
             ],
           },
           {
@@ -166,7 +166,7 @@ function App() {
               "Visual Design",
               "3D Design (CAD Models)",
               "3D Simulation",
-              "Direct Upload to Hardware",
+              "Direct Upload to Hardware (Soon)",
             ],
           },
           {
@@ -182,7 +182,7 @@ function App() {
               "Visual Design",
               "3D Design (CAD Models)",
               "3D Simulation",
-              "Direct Upload to Hardware",
+              "Direct Upload to Hardware (Soon)",
             ],
           },
         ],
@@ -229,7 +229,7 @@ function App() {
         now: [
           "Private beta live with early users",
           "Real projects built using Hovera",
-          "Prompt → simulation → hardware upload working",
+          "Prompt → simulation working (hardware upload soon)",
         ],
         next: [
           "Expand beta with more students & makers",
