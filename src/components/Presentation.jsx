@@ -531,20 +531,33 @@ const Presentation = ({ slides }) => {
   // Video Autoplay logic
   useEffect(() => {
     const currentSlide = slides[currentSlideIndex];
+    let playTimeout;
+
     if (currentSlide && currentSlide.video && videoRef.current) {
       videoRef.current.load();
       videoRef.current.currentTime = 0;
-      videoRef.current.play().catch((e) => {
-        console.warn("Autoplay blocked, waiting for interaction", e);
-        const playOnInteraction = () => {
-          if (videoRef.current) videoRef.current.play();
-          document.removeEventListener("click", playOnInteraction);
-        };
-        document.addEventListener("click", playOnInteraction);
-      });
+      videoRef.current.pause();
+
+      // Wait for the slide transition (3s in CSS) to complete before playing
+      playTimeout = setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.play().catch((e) => {
+            console.warn("Autoplay blocked, waiting for interaction", e);
+            const playOnInteraction = () => {
+              if (videoRef.current) videoRef.current.play();
+              document.removeEventListener("click", playOnInteraction);
+            };
+            document.addEventListener("click", playOnInteraction);
+          });
+        }
+      }, 3000); // 3s delay to match CSS transition
     } else if (videoRef.current) {
       videoRef.current.pause();
     }
+
+    return () => {
+      if (playTimeout) clearTimeout(playTimeout);
+    };
   }, [currentSlideIndex, slides]);
 
   const handleVideoEnd = () => handleNext();
