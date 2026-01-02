@@ -85,6 +85,11 @@
   transform: scale(0.85);
 }
 
+.slide-container.slide-1.revealing,
+.slide-container.slide-1.revealed {
+  transform: scale(1.25);
+}
+
 .slide-container.slide-1.initial .slide-image-wrapper {
   width: 80%;
   max-width: 1000px;
@@ -165,7 +170,7 @@
 
 .slide-container.slide-11.revealing,
 .slide-container.slide-11.revealed {
-  transform: scale(1.09);
+  transform: scale(1.25);
 }
 
 /* 🚀 MEGA FIX: Absolute preservation chain for Slide 8, 9, 10, and 11 */
