@@ -10,7 +10,7 @@ Hovera makes building robots as easy as software. Describe what you want, and we
 
 ## Slide 2: Robotics Is Still Too Hard
 
-AI is ready for the physical world, but robotics tooling is stuck in the past. Today, building a simple robot requires five different fragmented tools. This friction kills ideas before they ever touch hardware. Hovera exists to close that gap.
+AI is ready for the physical world, but robotics tooling is stuck in the past. Today, building a simple robot requires multiple fragmented tools. This friction kills ideas before they ever become real systems. Hovera exists to close that gap.
 
 ---
 
@@ -22,7 +22,7 @@ One prompt, one workflow. Hovera generates the logic, code, wiring, 3D design, s
 
 ## Slide 4: How it works
 
-Hovera is an intent-driven pipeline. Describe the goal, generate the system, and validate it in simulation. This ensures builders are ready to run their designs on real hardware. It doesn't replace engineers; it removes the tech friction.
+Hovera is an intent-driven pipeline. You describe the goal, generate the system, and validate it in simulation. This prepares builders to take their designs to real hardware. Hovera doesn’t replace engineers — it removes the technical friction.
 
 Watch as one prompt generates everything: the logic flowchart, wiring diagram, production code, design, and simulation. This automated workflow replaces days of manual engineering.
 
@@ -42,7 +42,7 @@ This is the perfect early user group to test fast before moving to labs, startup
 
 ## Slide 6: Why Hovera Is Different
 
-We don't just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is our data: as Hovera learns from every validated system, it becomes harder for anyone to replicate.
+We don’t just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is data — as Hovera learns from every system generated and validated in simulation, it becomes harder to replicate.
 
 ---
 
@@ -59,7 +59,7 @@ As people build more robots, our business grows with them.”
 
 ## Slide 8: Why Existing Tools Fall Short
 
-Existing tools like Cursor or Arduino only solve pieces of the puzzle. None connect the entire workflow from intent to hardware. That end-to-end connection is the gap Hovera fills.
+Existing tools like Cursor or Arduino only solve pieces of the puzzle. None connect the entire workflow from intent to a complete robot system. That end-to-end connection is the gap Hovera fills.
 
 ---
 
@@ -67,7 +67,7 @@ Existing tools like Cursor or Arduino only solve pieces of the puzzle. None conn
 
 “Hovera is already in private beta.
 
-Early users are generating complete robot systems using the full pipeline — from prompt, to testing, and validation in simulation.
+Early users are building complete robot systems using Hovera — from prompt to simulation — with direct hardware upload coming next.
 
 The core system is live and getting better every day.”
 
@@ -83,7 +83,7 @@ I'm Eki Bagas. I'm building Hovera because I personally lived the pain of the br
 
 “Our long-term vision is simple:
 
-Build robots as easily as software.”
+Make building robots as accessible as building software.”
 
 “Hovera lowers the barrier between ideas and real machines.
 

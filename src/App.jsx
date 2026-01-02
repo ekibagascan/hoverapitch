@@ -18,7 +18,7 @@ function App() {
       title: "Robotics Is Still Too Hard",
       subtitle: "",
       notes:
-        "AI is ready for the physical world, but robotics tooling is stuck in the past. Today, building a simple robot requires five different fragmented tools. This friction kills ideas before they ever touch hardware. Hovera exists to close that gap.",
+        "AI is ready for the physical world, but robotics tooling is stuck in the past. Today, building a simple robot requires multiple fragmented tools. This friction kills ideas before they ever become real systems. Hovera exists to close that gap.",
       topMessages: [
         "Too many tools, no single workflow",
         "Too much technical friction",
@@ -55,7 +55,7 @@ function App() {
       subtitle: "",
       isStep: true,
       notes:
-        "Hovera is an intent-driven pipeline. Describe the goal, generate the system, and validate it in simulation. This ensures builders are ready to run their designs on real hardware. It doesn't replace engineers; it removes the tech friction.\n\n[DEMO]\nLet's see it: a single prompt becomes a complete robot system, tested and ready.",
+        "Hovera is an intent-driven pipeline. You describe the goal, generate the system, and validate it in simulation. This prepares builders to take their designs to real hardware. Hovera doesn’t replace engineers — it removes the technical friction.",
     },
     {
       id: "video",
@@ -69,7 +69,7 @@ function App() {
       title: "Focused Early Users",
       subtitle: "",
       notes:
-        "“We start with a focused market.\nEngineering students and makers.\n\nWhy? \nThey have tight deadlines, real projects, and limited budgets. They actively share tools with each other.\n\nThis is the perfect early user group to test fast before moving to labs, startups, and schools.”",
+        "“We start with a focused market.\nEngineering students and makers.\n\nWhy?\nThey have tight deadlines, real projects, and limited budgets. They actively share tools with each other.\n\nThis is the perfect early user group to test fast before moving to labs, startups, and schools.”",
       users: [
         { image: "/student.png", title: "Engineering students" },
         { image: "/maker.png", title: "Makers and hobbyists" },
@@ -85,7 +85,7 @@ function App() {
       title: "Why Hovera Is Different",
       subtitle: "",
       notes:
-        "We don't just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is our data: as Hovera learns from every validated system, it becomes harder for anyone to replicate.",
+        "We don’t just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is data — as Hovera learns from every system generated and validated in simulation, it becomes harder to replicate.",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -194,7 +194,7 @@ function App() {
       title: "Why Existing Tools Fall Short",
       subtitle: "",
       notes:
-        "Existing tools like Cursor or Arduino only solve pieces of the puzzle. None connect the entire workflow from intent to hardware. That end-to-end connection is the gap Hovera fills.",
+        "Existing tools like Cursor or Arduino only solve pieces of the puzzle. None connect the entire workflow from intent to a complete robot system. That end-to-end connection is the gap Hovera fills.",
       competitors: [
         {
           name: "Cursor",
@@ -224,7 +224,7 @@ function App() {
       title: "Where We Are",
       subtitle: "",
       notes:
-        "“Hovera is already in private beta.\n\nEarly users are generating complete robot systems using the full pipeline — from prompt, to testing, and validation in simulation.\n\nThe core system is live and getting better every day.”",
+        "“Hovera is already in private beta.\n\nEarly users are building complete robot systems using Hovera — from prompt to simulation — with direct hardware upload coming next.\n\nThe core system is live and getting better every day.”",
       timeline: {
         now: [
           "Private beta live with early users",
@@ -234,6 +234,7 @@ function App() {
         next: [
           "Hardware upload rollout",
           "Expand beta with more students & makers",
+          "Improve reliability and hardware support",
         ],
       },
     },
