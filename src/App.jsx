@@ -55,7 +55,7 @@ function App() {
       subtitle: "",
       isStep: true,
       notes:
-        "Hovera is an intent-driven pipeline. Describe the goal, generate the system, simulate the results. Soon, we’ll push directly to hardware. It doesn't replace engineers; it removes the tech friction.\n\n[DEMO]\nLet's see it: a single prompt becomes a complete robot system, tested and ready.",
+        "Hovera is an intent-driven pipeline. Describe the goal, generate the system, and validate it in simulation. This ensures builders are ready to run their designs on real hardware. It doesn't replace engineers; it removes the tech friction.\n\n[DEMO]\nLet's see it: a single prompt becomes a complete robot system, tested and ready.",
     },
     {
       id: "video",
@@ -85,7 +85,7 @@ function App() {
       title: "Why Hovera Is Different",
       subtitle: "",
       notes:
-        "We don't just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is our data: as Hovera learns from every real-world build, it becomes harder for anyone to replicate.",
+        "We don't just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is our data: as Hovera learns from every validated system, it becomes harder for anyone to replicate.",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -224,16 +224,16 @@ function App() {
       title: "Where We Are",
       subtitle: "",
       notes:
-        "“Hovera is already in private beta.\n\nEarly users are building real projects using the full system — from prompt, to testing, and soon we can push it directly to hardware.\n\nThe core system is live and getting better every day.”",
+        "“Hovera is already in private beta.\n\nEarly users are generating complete robot systems using the full pipeline — from prompt, to testing, and validation in simulation.\n\nThe core system is live and getting better every day.”",
       timeline: {
         now: [
           "Private beta live with early users",
-          "Real projects built using Hovera",
-          "Prompt → simulation working (hardware upload soon)",
+          "Users generating complete robot systems",
+          "Prompt → simulation pipeline working",
         ],
         next: [
+          "Hardware upload rollout",
           "Expand beta with more students & makers",
-          "Improve reliability and hardware support",
         ],
       },
     },
