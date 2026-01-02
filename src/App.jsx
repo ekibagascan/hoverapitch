@@ -34,7 +34,7 @@ function App() {
       title: "One Prompt. Complete Robot.",
       subtitle: "",
       notes:
-        "“Hovera removes that friction.\n\nYou write a prompt describing the robot you want.\nHovera generates the entire system:\nthe logic flowchart, production-ready code, wiring diagram, 3D-printable design, simulation, and step-by-step instructions.\n\nOne prompt. One workflow. A real robot.”",
+        "“Hovera removes that friction.\n\nYou write a prompt describing the robot you want.\nHovera generates the entire system:\nthe logic flowchart, production-ready code, wiring diagram, 3D-printable design, simulation, BOM, and step-by-step instructions.\n\nOne prompt. One workflow. A real robot.”",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -44,6 +44,7 @@ function App() {
           { label: "3D design", icon: "Box" },
           { label: "Step-by-step instructions", icon: "ListChecks" },
           { label: "Simulation", icon: "Cpu" },
+          { label: "BOM", icon: "FileSpreadsheet" },
         ],
       },
     },
@@ -126,6 +127,7 @@ function App() {
               "Complete Source Code",
               "Interactive Flowchart",
               "Wiring Diagrams",
+              "BOM",
               "Step-by-Step Guide",
               "Visual Design - Limited",
               { text: "3D Design (CAD Models)", disabled: true },
@@ -142,6 +144,7 @@ function App() {
               "Complete Source Code",
               "Interactive Flowchart",
               "Wiring Diagrams",
+              "BOM",
               "Step-by-Step Guide",
               "Visual Design",
               "3D Design (CAD Models)",
@@ -157,6 +160,7 @@ function App() {
               "Complete Source Code",
               "Interactive Flowchart",
               "Wiring Diagrams",
+              "BOM",
               "Step-by-Step Guide",
               "Visual Design",
               "3D Design (CAD Models)",
@@ -172,6 +176,7 @@ function App() {
               "Complete Source Code",
               "Interactive Flowchart",
               "Wiring Diagrams",
+              "BOM",
               "Step-by-Step Guide",
               "Visual Design",
               "3D Design (CAD Models)",
