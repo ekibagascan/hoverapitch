@@ -148,7 +148,8 @@ const Presentation = ({ slides }) => {
                 s.competitors ||
                 s.timeline ||
                 s.founder ||
-                s.whyThem
+                s.whyThem ||
+                s.isStep
               ),
             })),
           },
@@ -570,14 +571,14 @@ const Presentation = ({ slides }) => {
       // Wait for the slide transition (3s in CSS) to complete before playing
       playTimeout = setTimeout(() => {
         if (videoRef.current) {
-      videoRef.current.play().catch((e) => {
-        console.warn("Autoplay blocked, waiting for interaction", e);
-        const playOnInteraction = () => {
-          if (videoRef.current) videoRef.current.play();
-          document.removeEventListener("click", playOnInteraction);
-        };
-        document.addEventListener("click", playOnInteraction);
-      });
+          videoRef.current.play().catch((e) => {
+            console.warn("Autoplay blocked, waiting for interaction", e);
+            const playOnInteraction = () => {
+              if (videoRef.current) videoRef.current.play();
+              document.removeEventListener("click", playOnInteraction);
+            };
+            document.addEventListener("click", playOnInteraction);
+          });
         }
       }, 3000); // 3s delay to match CSS transition
     } else if (videoRef.current) {

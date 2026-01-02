@@ -53,14 +53,15 @@ function App() {
       image: "/slide_4.png",
       title: "How it works",
       subtitle: "",
+      isStep: true,
       notes:
-        "“Hovera is an intent-driven robotics pipeline.\n\nYou describe your goal.\nHovera generates the full system.\nYou simulate it.\nThen you upload directly to hardware and run it.\n\nHovera isn’t trying to replace engineers — it removes the tech friction so they can actually build robots faster.”",
+        "“Hovera is an intent-driven robotics pipeline.\n\nYou describe your goal.\nHovera generates the full system.\nYou simulate it.\nSoon we can push it directly to hardware and run it.\n\nHovera isn’t trying to replace engineers — it removes the tech friction so they can actually build robots faster.”\n\n[DEMO]\nLet's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then soon we can push it directly to the hardware.",
     },
     {
       id: "video",
       video: "/demo.mp4", // Placeholder for demo video
       notes:
-        "Let's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then pushes it directly to the hardware.",
+        "Let's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then soon we can push it directly to the hardware.",
     },
     {
       id: 5,
@@ -223,7 +224,7 @@ function App() {
       title: "Where We Are",
       subtitle: "",
       notes:
-        "“Hovera is already in public beta.\n\nEarly users are building real projects using the full pipeline — from prompt, to simulation, to direct hardware upload.\n\nThe core system is live and improving through real usage.”",
+        "“Hovera is already in public beta.\n\nEarly users are building real projects using the full pipeline — from prompt, to simulation, and soon we can push it directly to hardware.\n\nThe core system is live and improving through real usage.”",
       timeline: {
         now: [
           "Public beta live with early users",
