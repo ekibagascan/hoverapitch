@@ -10,7 +10,7 @@ function App() {
       title: "Build Robots with Just Prompts",
       subtitle: "From idea to working robot in minutes",
       notes:
-        "As Jensen Huang said: 'The next big thing is Physical AI, AI with a body. And when you take that physical AI and then you put it into a physical object called a robot, you get robotics.'\n\nImagine if building robots was as easy as building software.\n\nHovera lets you build real, working robots just by describing what you want.\nNo CAD headaches, no wiring guesswork, no jumping between ten different tools.\n\nFrom an idea to a working robot — in minutes.”",
+        "Jensen Huang says the next big thing is Physical AI—AI with a body. That body is a robot.\n\nHovera makes building robots as easy as software. Describe what you want, and we handle the complexity—no CAD headaches or wiring guesswork. From idea to machine in minutes.",
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ function App() {
       title: "Robotics Is Still Too Hard",
       subtitle: "",
       notes:
-        "“Today, robotics is still way too hard.\n\nAI is now ready to move into the physical world, but robotics tooling hasn’t caught up. That gap is exactly where Hovera fits.\n\nEven a simple robot requires stitching together multiple tools: code editors, wiring diagrams, CAD software, simulators, and firmware tools. For students and makers, this technical friction kills ideas before they ever touch real hardware.”",
+        "AI is ready for the physical world, but robotics tooling is stuck in the past. Today, building a simple robot requires five different fragmented tools. This friction kills ideas before they ever touch hardware. Hovera exists to close that gap.",
       topMessages: [
         "Too many tools, no single workflow",
         "Too much technical friction",
@@ -34,7 +34,7 @@ function App() {
       title: "One Prompt. Complete Robot.",
       subtitle: "",
       notes:
-        "“Hovera removes that friction.\n\nYou write a prompt describing the robot you want.\nHovera generates the entire system:\nthe logic flowchart, production-ready code, wiring diagram, 3D-printable design, simulation, BOM, and step-by-step instructions.\n\nOne prompt. One workflow. A real robot.”",
+        "One prompt, one workflow. Hovera generates the logic, code, wiring, 3D design, simulation, and BOM. We turn intent into a complete, buildable system instantly.",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -55,13 +55,13 @@ function App() {
       subtitle: "",
       isStep: true,
       notes:
-        "“Hovera is an intent-driven robotics pipeline.\n\nYou describe your goal.\nHovera generates the full system.\nYou simulate it.\nSoon we can push it directly to hardware and run it.\n\nHovera isn’t trying to replace engineers — it removes the tech friction so they can actually build robots faster.”\n\n[DEMO]\nLet's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then soon we can push it directly to the hardware.",
+        "Hovera is an intent-driven pipeline. Describe the goal, generate the system, simulate the results. Soon, we’ll push directly to hardware. It doesn't replace engineers; it removes the tech friction.\n\n[DEMO]\nLet's see it: a single prompt becomes a complete robot system, tested and ready.",
     },
     {
       id: "video",
       video: "/demo.mp4", // Placeholder for demo video
       notes:
-        "Let's see it in action. Here, a single prompt turns into a complete robot system. Hovera generates the logic, tests it in simulation, and then soon we can push it directly to the hardware.",
+        "Watch as Hovera builds the logic and simulates the environment. This 45-second workflow replaces days of manual engineering.",
     },
     {
       id: 5,
@@ -85,7 +85,7 @@ function App() {
       title: "Why Hovera Is Different",
       subtitle: "",
       notes:
-        "“Most tools help you write code.\nHovera helps you build robots.\n\nIt’s end-to-end, hardware-aware, and learns from real-world builds. Because Hovera learns from real robots being built, it becomes harder to replicate over time — that’s our moat.”",
+        "We don't just write code; we build robots. Hovera is hardware-aware and end-to-end. Our moat is our data: as Hovera learns from every real-world build, it becomes harder for anyone to replicate.",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -194,7 +194,7 @@ function App() {
       title: "Why Existing Tools Fall Short",
       subtitle: "",
       notes:
-        "“Existing tools only solve parts of the problem. All these tools are good, but each solves only one part of the workflow. None connects everything end-to-end.\n\nCursor focuses on app development, not robotics. Arduino requires manual coding. ROS is powerful but complex. Fritzing is manual wiring. No existing tool generates the entire robot system from intent to hardware. That’s the gap Hovera fills.”",
+        "Existing tools like Cursor or Arduino only solve pieces of the puzzle. None connect the entire workflow from intent to hardware. That end-to-end connection is the gap Hovera fills.",
       competitors: [
         {
           name: "Cursor",
@@ -243,7 +243,7 @@ function App() {
       title: "Founder",
       subtitle: "",
       notes:
-        "“I’m a solo founder building Hovera because I personally experienced how painful and fragmented robotics development still is.\n\nI’ve experienced how hard robotics is firsthand, and I’m building the tool I wish existed.”",
+        "I'm Eki Bagas. I'm building Hovera because I personally lived the pain of fragmented robotics development. I’m building the tool I wish I had.",
       founder: [
         "Eki Bagas - Solo founder",
         "Robotics + software background",
