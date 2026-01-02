@@ -10,7 +10,7 @@ function App() {
       title: "Build Robots with Just Prompts",
       subtitle: "From idea to working robot in minutes",
       notes:
-        "“Imagine if building robots was as easy as building software.\n\nHovera lets you build real, working robots just by describing what you want.\nNo CAD headaches, no wiring guesswork, no jumping between ten different tools.\n\nFrom an idea to a working robot — in minutes.”",
+        "As Jensen Huang said: 'The next big thing is Physical AI, AI with a body. And when you take that physical AI and then you put it into a physical object called a robot, you get robotics.'\n\nImagine if building robots was as easy as building software.\n\nHovera lets you build real, working robots just by describing what you want.\nNo CAD headaches, no wiring guesswork, no jumping between ten different tools.\n\nFrom an idea to a working robot — in minutes.”",
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ function App() {
       title: "Robotics Is Still Too Hard",
       subtitle: "",
       notes:
-        "“Today, robotics is still way too hard.\n\nEven a simple robot requires stitching together multiple tools: code editors, wiring diagrams, CAD software, simulators, and firmware tools.\n\nFor students and makers, this technical friction kills ideas before they ever touch real hardware.”",
+        "“Today, robotics is still way too hard.\n\nAI is now ready to move into the physical world, but robotics tooling hasn’t caught up. That gap is exactly where Hovera fits.\n\nEven a simple robot requires stitching together multiple tools: code editors, wiring diagrams, CAD software, simulators, and firmware tools. For students and makers, this technical friction kills ideas before they ever touch real hardware.”",
       topMessages: [
         "Too many tools, no single workflow",
         "Too much technical friction",
@@ -85,7 +85,7 @@ function App() {
       title: "Why Hovera Is Different",
       subtitle: "",
       notes:
-        "“Most tools help you write code.\nHovera helps you build robots.\n\nIt’s end-to-end, hardware-aware, and learns from real-world builds.\nThat’s the difference.”",
+        "“Most tools help you write code.\nHovera helps you build robots.\n\nIt’s end-to-end, hardware-aware, and learns from real-world builds. Because Hovera learns from real robots being built, it becomes harder to replicate over time — that’s our moat.”",
       chart: {
         center: "/hovera.png",
         segments: [
@@ -194,7 +194,7 @@ function App() {
       title: "Why Existing Tools Fall Short",
       subtitle: "",
       notes:
-        "“Existing tools only solve parts of the problem.\n\nCursor focuses on app development, not robotics.\nArduino requires manual coding.\nROS is powerful but complex.\nFritzing is manual wiring.\n\nNo existing tool generates the entire robot system from intent to hardware.\nThat’s the gap Hovera fills.”",
+        "“Existing tools only solve parts of the problem. All these tools are good, but each solves only one part of the workflow. None connects everything end-to-end.\n\nCursor focuses on app development, not robotics. Arduino requires manual coding. ROS is powerful but complex. Fritzing is manual wiring. No existing tool generates the entire robot system from intent to hardware. That’s the gap Hovera fills.”",
       competitors: [
         {
           name: "Cursor",
@@ -243,7 +243,7 @@ function App() {
       title: "Founder",
       subtitle: "",
       notes:
-        "“I’m a solo founder building this from personal pain.\n\nI’ve experienced how hard robotics is firsthand, and I’m building the tool I wish existed.”",
+        "“I’m a solo founder building Hovera because I personally experienced how painful and fragmented robotics development still is.\n\nI’ve experienced how hard robotics is firsthand, and I’m building the tool I wish existed.”",
       founder: [
         "Eki Bagas - Solo founder",
         "Robotics + software background",
