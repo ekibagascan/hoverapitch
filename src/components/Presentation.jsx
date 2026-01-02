@@ -390,18 +390,7 @@ const Presentation = ({ slides }) => {
       return;
 
     try {
-      // 🚀 Capture Screen & System Audio
-      const screenStream = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          frameRate: { ideal: 60, max: 60 },
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
-        },
-        audio: true, // Capture system audio
-      });
-      screenStreamRef.current = screenStream;
-
-      // 🎤 Capture Microphone Audio (Voice)
+      // 🎤 Capture Microphone Audio (Voice) FIRST to ensure prompt
       let voiceStream = null;
       try {
         voiceStream = await navigator.mediaDevices.getUserMedia({
@@ -416,9 +405,21 @@ const Presentation = ({ slides }) => {
         console.warn("Microphone access denied or not found:", err);
       }
 
+      // 🚀 Capture Screen & System Audio
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          frameRate: { ideal: 60, max: 60 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
+        audio: true, // Capture system audio
+      });
+      screenStreamRef.current = screenStream;
+
       // 💎 Mix Audio Tracks (System Audio + Microphone)
       const tracks = [...screenStream.getVideoTracks()];
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
       const dest = audioContext.createMediaStreamDestination();
 
       let hasAudio = false;
@@ -611,14 +612,14 @@ const Presentation = ({ slides }) => {
       // Wait for the slide transition (1s in CSS) to complete before playing
       playTimeout = setTimeout(() => {
         if (videoRef.current) {
-          videoRef.current.play().catch((e) => {
-            console.warn("Autoplay blocked, waiting for interaction", e);
-            const playOnInteraction = () => {
-              if (videoRef.current) videoRef.current.play();
-              document.removeEventListener("click", playOnInteraction);
-            };
-            document.addEventListener("click", playOnInteraction);
-          });
+      videoRef.current.play().catch((e) => {
+        console.warn("Autoplay blocked, waiting for interaction", e);
+        const playOnInteraction = () => {
+          if (videoRef.current) videoRef.current.play();
+          document.removeEventListener("click", playOnInteraction);
+        };
+        document.addEventListener("click", playOnInteraction);
+      });
         }
       }, 1000); // 1s delay to match CSS transition
     } else if (videoRef.current) {
