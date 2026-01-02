@@ -18,6 +18,7 @@ const Presentation = ({ slides }) => {
   const recordedChunksRef = useRef([]);
   const screenStreamRef = useRef(null);
   const webcamStreamRef = useRef(null);
+  const voiceStreamRef = useRef(null);
   const imageRefs = useRef({});
   const videoRef = useRef(null);
   const notesWindowRef = useRef(null);
@@ -34,7 +35,7 @@ const Presentation = ({ slides }) => {
         setRevealState(1); // Images start scaling
         setTimeout(() => {
           setRevealState((prev) => (prev === 1 ? 2 : prev));
-        }, 2500);
+        }, 800);
       }
       return nextIndex;
     });
@@ -69,7 +70,7 @@ const Presentation = ({ slides }) => {
       setRevealState(1);
       setTimeout(() => {
         setRevealState((prev) => (prev === 1 ? 2 : prev));
-      }, 2500);
+      }, 800);
     } else if (revealState === 1) {
       setRevealState(2);
     } else if (revealState === 2) {
@@ -381,7 +382,6 @@ const Presentation = ({ slides }) => {
   };
 
   const startRecording = async () => {
-    // Guard against multiple calls
     if (
       isRecording ||
       (mediaRecorderRef.current &&
@@ -390,34 +390,76 @@ const Presentation = ({ slides }) => {
       return;
 
     try {
-      // 🚀 High-Quality Display Capture
+      // 🚀 Capture Screen & System Audio
       const screenStream = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 60, max: 60 }, // 60 FPS for smooth motion
-          width: { ideal: 1920 }, // Full HD width
-          height: { ideal: 1080 }, // Full HD height
+          frameRate: { ideal: 60, max: 60 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
         },
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
+        audio: true, // Capture system audio
       });
       screenStreamRef.current = screenStream;
 
+      // 🎤 Capture Microphone Audio (Voice)
+      let voiceStream = null;
+      try {
+        voiceStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
+        });
+        voiceStreamRef.current = voiceStream;
+      } catch (err) {
+        console.warn("Microphone access denied or not found:", err);
+      }
+
+      // 💎 Mix Audio Tracks (System Audio + Microphone)
+      const tracks = [...screenStream.getVideoTracks()];
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const dest = audioContext.createMediaStreamDestination();
+
+      let hasAudio = false;
+
+      // Add System Audio to Mix
+      if (screenStream.getAudioTracks().length > 0) {
+        const source = audioContext.createMediaStreamSource(
+          new MediaStream([screenStream.getAudioTracks()[0]])
+        );
+        source.connect(dest);
+        hasAudio = true;
+      }
+
+      // Add Microphone to Mix
+      if (voiceStream && voiceStream.getAudioTracks().length > 0) {
+        const source = audioContext.createMediaStreamSource(
+          new MediaStream([voiceStream.getAudioTracks()[0]])
+        );
+        source.connect(dest);
+        hasAudio = true;
+      }
+
+      if (hasAudio) {
+        tracks.push(...dest.stream.getAudioTracks());
+      }
+
+      const combinedStream = new MediaStream(tracks);
+
       // 💎 Ultra-HD Bitrate & Codec Selection
       const types = [
-        "video/webm;codecs=h264", // Best for compatibility and conversion to MP4
-        "video/webm;codecs=vp9", // High efficiency
+        "video/webm;codecs=h264",
+        "video/webm;codecs=vp9",
         "video/webm;codecs=vp8",
       ];
       const mimeType =
         types.find((type) => MediaRecorder.isTypeSupported(type)) ||
         "video/webm";
 
-      const recorder = new MediaRecorder(screenStream, {
+      const recorder = new MediaRecorder(combinedStream, {
         mimeType,
-        videoBitsPerSecond: 20000000, // 🔥 20 Mbps for crystal clear video
+        videoBitsPerSecond: 20000000,
       });
 
       recordedChunksRef.current = [];
@@ -427,41 +469,39 @@ const Presentation = ({ slides }) => {
 
       recorder.onstop = () => {
         if (recordedChunksRef.current.length > 0) {
-          const blob = new Blob(recordedChunksRef.current, {
-            type: mimeType,
-          });
+          const blob = new Blob(recordedChunksRef.current, { type: mimeType });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          // Note: Browsers natively export as .webm, but high bitrate makes it sharp
           a.download = `Hovera-UltraHD-Pitch-${new Date().toISOString()}.webm`;
           a.click();
           URL.revokeObjectURL(url);
-
-          // CRITICAL: Clear chunks after download
           recordedChunksRef.current = [];
         }
 
-        // Reset UI state
         setIsRecording(false);
         setIsPaused(false);
         setRecordingStartTime(null);
 
         // Clean up tracks
-        if (screenStreamRef.current) {
-          screenStreamRef.current.getTracks().forEach((t) => t.stop());
-          screenStreamRef.current = null;
+        [screenStreamRef, voiceStreamRef].forEach((ref) => {
+          if (ref.current) {
+            ref.current.getTracks().forEach((t) => t.stop());
+            ref.current = null;
+          }
+        });
+
+        if (audioContext.state !== "closed") {
+          audioContext.close();
         }
       };
 
       // Handle browser's own "Stop sharing" bar
       screenStream.getTracks()[0].onended = () => {
-        if (recorder.state !== "inactive") {
-          recorder.stop();
-        }
+        if (recorder.state !== "inactive") recorder.stop();
       };
 
-      recorder.start(1000); // Buffer every 1s for safety
+      recorder.start(1000);
       mediaRecorderRef.current = recorder;
       setIsRecording(true);
       setRecordingStartTime(Date.now());
@@ -568,7 +608,7 @@ const Presentation = ({ slides }) => {
       videoRef.current.currentTime = 0;
       videoRef.current.pause();
 
-      // Wait for the slide transition (3s in CSS) to complete before playing
+      // Wait for the slide transition (1s in CSS) to complete before playing
       playTimeout = setTimeout(() => {
         if (videoRef.current) {
           videoRef.current.play().catch((e) => {
@@ -580,7 +620,7 @@ const Presentation = ({ slides }) => {
             document.addEventListener("click", playOnInteraction);
           });
         }
-      }, 3000); // 3s delay to match CSS transition
+      }, 1000); // 1s delay to match CSS transition
     } else if (videoRef.current) {
       videoRef.current.pause();
     }

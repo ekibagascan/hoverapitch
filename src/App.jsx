@@ -61,7 +61,7 @@ function App() {
       id: "video",
       video: "/demo.mp4", // Placeholder for demo video
       notes:
-        "Watch as Hovera builds the logic and simulates the environment. This 45-second workflow replaces days of manual engineering.",
+        "Watch as one prompt generates everything: the logic flowchart, wiring diagram, production code, design, and simulation. This automated workflow replaces days of manual engineering.",
     },
     {
       id: 5,
@@ -69,7 +69,7 @@ function App() {
       title: "Focused Early Users",
       subtitle: "",
       notes:
-        "“We start with a focused market.\nEngineering students and makers.\n\nWhy? \nThey have urgent deadlines, real projects, limited budgets, and they actively share tools with each other.\n\nThis is the perfect early adopter group to validate fast before expanding to labs, startups, and education institutions.”",
+        "“We start with a focused market.\nEngineering students and makers.\n\nWhy? \nThey have tight deadlines, real projects, and limited budgets. They actively share tools with each other.\n\nThis is the perfect early user group to test fast before moving to labs, startups, and schools.”",
       users: [
         { image: "/student.png", title: "Engineering students" },
         { image: "/maker.png", title: "Makers and hobbyists" },
@@ -116,7 +116,7 @@ function App() {
       title: "Built for Adoption First, Scale Later",
       subtitle: "",
       notes:
-        "“Hovera follows a freemium, usage-based model.\n\nUsers start free, then upgrade as they build more complex robots.\nStudents upgrade first, labs and teams scale usage later.\n\nAs people build more robots, revenue grows naturally.”",
+        "“Hovera uses a free and paid model.\n\nUsers start free, then pay as they build harder robots.\nStudents join first, then labs and teams scale up later.\n\nAs people build more robots, our business grows with them.”",
       pricing: {
         whoPays: "Students, makers, and companies at scale",
         plans: [
@@ -224,7 +224,7 @@ function App() {
       title: "Where We Are",
       subtitle: "",
       notes:
-        "“Hovera is already in private beta.\n\nEarly users are building real projects using the full pipeline — from prompt, to simulation, and soon we can push it directly to hardware.\n\nThe core system is live and improving through real usage.”",
+        "“Hovera is already in private beta.\n\nEarly users are building real projects using the full system — from prompt, to testing, and soon we can push it directly to hardware.\n\nThe core system is live and getting better every day.”",
       timeline: {
         now: [
           "Private beta live with early users",
@@ -243,7 +243,7 @@ function App() {
       title: "Founder",
       subtitle: "",
       notes:
-        "I'm Eki Bagas. I'm building Hovera because I personally lived the pain of fragmented robotics development. I’m building the tool I wish I had.",
+        "I'm Eki Bagas. I'm building Hovera because I personally lived the pain of the broken way we build robots. I’m building the tool I wish I had.",
       founder: [
         "Eki Bagas - Solo founder",
         "Robotics + software background",
