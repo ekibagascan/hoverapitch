@@ -139,6 +139,17 @@ const Presentation = ({ slides }) => {
             slides: slides.map((s, i) => ({
               image: s.image,
               id: s.id,
+              hasMoreSteps: !!(
+                s.tools ||
+                s.topMessages ||
+                s.chart ||
+                s.users ||
+                s.pricing ||
+                s.competitors ||
+                s.timeline ||
+                s.founder ||
+                s.whyThem
+              ),
             })),
           },
           "*"
@@ -221,6 +232,23 @@ const Presentation = ({ slides }) => {
             .slide-thumb.active { border-color: #00f2ff; transform: scale(1.05); }
             .slide-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
             .slide-thumb.active img { opacity: 1; }
+            .step-indicator { 
+              position: absolute; 
+              top: 5px; 
+              right: 5px; 
+              background: #00f2ff; 
+              color: #000; 
+              width: 18px; 
+              height: 18px; 
+              border-radius: 50%; 
+              font-size: 11px; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center; 
+              font-weight: 900; 
+              box-shadow: 0 0 10px rgba(0,242,255,0.5);
+              z-index: 10;
+            }
             .nav-btn { width: 50px; height: 50px; border-radius: 50%; background: #fff; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; }
             .nav-btn:hover { background: #00f2ff; }
             button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
@@ -273,6 +301,7 @@ const Presentation = ({ slides }) => {
                 strip.innerHTML = data.slides.map((s, i) => \`
                   <div class="slide-thumb \${i === data.currentSlideIndex ? 'active' : ''}" onclick="window.opener.postMessage({type: 'goto', index: \${i}}, '*')">
                     \${s.image ? '<img src="' + s.image + '">' : '<div style="height:100%; background:#222;"></div>'}
+                    \${s.hasMoreSteps ? '<div class="step-indicator">2</div>' : ''}
                   </div>
                 \`).join('');
 
@@ -541,14 +570,14 @@ const Presentation = ({ slides }) => {
       // Wait for the slide transition (3s in CSS) to complete before playing
       playTimeout = setTimeout(() => {
         if (videoRef.current) {
-          videoRef.current.play().catch((e) => {
-            console.warn("Autoplay blocked, waiting for interaction", e);
-            const playOnInteraction = () => {
-              if (videoRef.current) videoRef.current.play();
-              document.removeEventListener("click", playOnInteraction);
-            };
-            document.addEventListener("click", playOnInteraction);
-          });
+      videoRef.current.play().catch((e) => {
+        console.warn("Autoplay blocked, waiting for interaction", e);
+        const playOnInteraction = () => {
+          if (videoRef.current) videoRef.current.play();
+          document.removeEventListener("click", playOnInteraction);
+        };
+        document.addEventListener("click", playOnInteraction);
+      });
         }
       }, 3000); // 3s delay to match CSS transition
     } else if (videoRef.current) {
