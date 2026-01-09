@@ -65,7 +65,7 @@ Existing tools like Cursor or Arduino only solve pieces of the puzzle. None conn
 
 ## Slide 9: Where We Are
 
-“Hovera is already in private beta.
+“Hovera is already in beta launch.
 
 Early users are building complete robot systems using Hovera — from prompt to simulation — with direct hardware upload coming next.
 

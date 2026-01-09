@@ -224,10 +224,10 @@ function App() {
       title: "Where We Are",
       subtitle: "",
       notes:
-        "“Hovera is already in private beta.\n\nEarly users are building complete robot systems using Hovera — from prompt to simulation — with direct hardware upload coming next.\n\nThe core system is live and getting better every day.”",
+        "“Hovera is already in beta launch.\n\nEarly users are building complete robot systems using Hovera — from prompt to simulation — with direct hardware upload coming next.\n\nThe core system is live and getting better every day.”",
       timeline: {
         now: [
-          "Private beta live with early users",
+          "Beta launch live with early users",
           "Users generating complete robot systems",
           "Prompt → simulation pipeline working",
         ],
