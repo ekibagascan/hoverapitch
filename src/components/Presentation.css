@@ -24,12 +24,7 @@
 }
 
 .header-left {
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-  justify-self: start;
+  display: none;
 }
 
 .header-center {
@@ -42,12 +37,7 @@
 }
 
 .header-right {
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-  justify-self: end;
+  display: none;
 }
 
 /* Slide Container Layers */
@@ -87,7 +77,7 @@
 
 .slide-container.slide-1.revealing,
 .slide-container.slide-1.revealed {
-  transform: scale(1.25);
+  transform: scale(1.15);
 }
 
 .slide-container.slide-1.initial .slide-image-wrapper {
@@ -170,7 +160,7 @@
 
 .slide-container.slide-11.revealing,
 .slide-container.slide-11.revealed {
-  transform: scale(1.25);
+  transform: scale(1.15);
 }
 
 /* 🚀 MEGA FIX: Absolute preservation chain for Slide 8, 9, 10, and 11 */
